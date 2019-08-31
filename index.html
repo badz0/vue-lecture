@@ -8,19 +8,38 @@
   <link rel="stylesheet" href="index.css">
 </head>
 <body>
-  <div id="app" >
-    <h1>
+  <div id="app" v-cloak>
+    <h1 v-if="show">
       {{ text.toUpperCase() }}
     </h1>
-    <a :href="link">link</a>
+    <h2 v-else>another text</h2>
+
+    <a :href="'https://' + link">link</a>
 
     <input type="text" v-model="text">
 
-    <h4>{{ counter }}</h4>
-    <button @click="increment">
-      add
-    </button>
+    <button @click="text += 'aaa'">add</button>
+
+    <ul>
+      <li v-for="(user, index) in users"
+          :key="index"
+          @click="userClick(user)">
+        {{user}}
+      </li>
+    </ul>
+
+    <div>
+      {{ counter }}
+    </div>
+    <button @click="increaseCounter">increase</button>
+    <br>
+    <br>
+    <h4 :style="{'color': accent, 'font-size': size + 'px'}">some text</h4>
+    <button @click="accent = 'red'">accent</button>
+    <button @click="size++">add</button>
   </div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="index.js"></script>

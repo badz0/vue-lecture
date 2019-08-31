@@ -1,38 +1,38 @@
 <template>
   <div>
-    <h3>
-      Hello dog
-    </h3>
+    <h3>Hello Dog</h3>
 
-    <select-dog v-on:breed-change="onBreedChange"></select-dog>
+    <select-breed @dog-select="onDogSelected" />
 
     <button @click="getDog">
-      <img v-bind:src="dogImage"
-        v-show="dogImage"
-        alt="Dog image">
+      <img v-show="dogUrl" :src="dogUrl" alt="Dog image">
     </button>
   </div>
 </template>
 
 <script>
-import SelectDog from './SelectDog';
+import SelectBreed from './SelectBreed';
 
 export default {
   name: 'HelloDog',
   components: {
-    SelectDog
+    SelectBreed
   },
   data() {
     return {
-      dogImage: '',
-      breeds: {},
-      selectedBreed: '',
+      dogUrl: null,
+      breeds: null,
+      selectedBreed: ''
     }
   },
   created() {
     this.getDog();
   },
   methods: {
+    onDogSelected(breed) {
+      this.selectedBreed = breed;
+      this.getDog();
+    },
     getDog() {
       let api;
       if (this.selectedBreed) {
@@ -42,34 +42,18 @@ export default {
       }
       fetch(api)
         .then(res => res.json())
-        .then(data => this.dogImage = data.message);
-    },
-    onBreedChange(breed) {
-      this.selectedBreed = breed;
-      this.getDog();
+        .then(data => this.dogUrl = data.message);
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+h3 {
+  color: red;
+}
 button {
-  border: none;
   background: none;
-  &:focus {
-    outline: none;
-  }
-}
-
-
-.hello-leave-active,
-.hello-enter-active  {
-  transition: all 1s;
-}
-
-.hello-leave-to,
-.hello-enter {
-  opacity: 0;
+  border: none;
 }
 </style>
